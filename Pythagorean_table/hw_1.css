@@ -1,0 +1,16 @@
+table {
+    margin-top: 10px;
+}
+
+td {
+    width: 5%;
+    text-align: center;
+    background: #87CEFA;
+}
+button {
+    color: white;
+    background: #0000FF;
+    font-size: 15px;
+    padding:5px;
+    border: #000080;
+}
