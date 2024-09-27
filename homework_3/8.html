@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+    <body class='text-center'>
+        <h4 class='text-center'>Список городов</h4>
+        <div>
+            <table class='table table-striped' id="mytable">
+            </table>
+            <input type='text' id='city'>
+            <button class='btn btn-dark' onclick="find_city()">Найти в списке</button>
+        </div>    
+    </body>
+    <script>
+        function create_table(){
+            if (document.querySelector('tbody'))
+                document.querySelector('tbody').remove()
+            
+            if (document.querySelector('p'))
+                document.querySelector('p').remove()
+            
+            let table = document.getElementById("mytable")
+            let tbody = document.createElement("tbody")
+            let cities = ['Москва', 'Санкт-Петербург', 'Саратов', 'Магадан', 'Ярославль', 'Иркутск', 'Самара', 'Ижевск']
+            for (let i=0; i<cities.length; i++){
+                    let tr = document.createElement('tr')
+                    let td = document.createElement('td')
+                    td.innerText=cities[i]
+                    td.setAttribute("id", cities[i]);
+                    tr.appendChild(td)
+                    tbody.appendChild(tr)
+            }
+            table.appendChild(tbody)
+            return cities
+        }
+        
+        create_table()
+        function find_city(){
+            cities = create_table()
+            let city = document.getElementById('city').value
+            if(cities.includes(city)){
+                document.getElementById(city).style.background = 'green'
+                let list = ''
+                for (let i=0; i<cities.length; i++){
+                    if(cities[i].includes(city[0])){
+                        if(list.length == 0)
+                            list+= cities[i]
+                        else
+                            list+=', '+cities[i]
+                    }
+                }
+                let p = document.createElement('p')
+                p.innerText = 'На букву '+city[0]+': '+list
+                document.querySelector('body').appendChild(p)
+            }
+            else{
+                alert('Такого города в списке нет!')
+            }
+        }
+    </script>
+</html>

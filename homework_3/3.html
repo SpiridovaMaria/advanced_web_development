@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+    <body>
+        <h4 class='text-center m-3'>Успеваемость студентов</h4>
+        <table class='table table-striped text-center' id="mytable">
+        </table>
+        <div class='m-3' id='block'>
+            <button class='btn btn-dark' onclick="make_report_card()">Создать табель</button>
+        </div>    
+    </body>
+    <script>
+        function make_report_card(){
+            
+            if (document.querySelector('tbody'))
+                document.querySelector('tbody').remove()
+            
+            let students = prompt('Введите всех учеников через запятую с пробелом:').split(', ')
+            let marks = prompt('Введите по 3 оценки для каждого ученика:').split(' ')
+            let table = document.getElementById("mytable")
+            let tbody = document.createElement("tbody")
+            
+            let col_names = ['Ученик', 'Экзамен 1', 'Экзамен 2', 'Экзамен 3', 'Средний балл']
+            let tr = document.createElement('tr')
+            for (let i=0; i<col_names.length; i++){
+                let th = document.createElement('th')
+                th.innerText=col_names[i]
+                tr.appendChild(th)
+            }
+            tbody.appendChild(tr)
+                
+            let best_res = -1
+            let worst_res = 6
+            let best_stud = 0
+            let worst_stud = 0
+            let flag_err = false
+            
+            for (let i=0; i<students.length; i++){
+                let tr = document.createElement('tr')
+                let all_marks = marks[i].split("-")
+                let avg_mark = 0
+                for (let j=-1; j<4; j++){
+                    let td = document.createElement('td')
+                    tr.appendChild(td)
+                    if (j == -1){
+                        td.innerText=students[i]
+                    }
+                    else if(j >= all_marks.length && j<3){
+                        flag_err = true
+                        td.innerText = 0   
+                    }
+                    else if (j == 3){
+                        td.innerText=avg_mark/3
+                        if(avg_mark/3>best_res){
+                            best_stud = i
+                            best_res = avg_mark/3
+                        }
+                        if (avg_mark/3<worst_res){
+                            worst_stud = i
+                            worst_res = avg_mark/3
+                        }
+                    }
+                    else{
+                        if (Number.isNaN(Number(all_marks[j])) || Number(all_marks[j])>5 || Number(all_marks[j])<2){
+                            flag_err = true
+                            td.innerText=0
+                        }
+                        else{
+                            td.innerText=all_marks[j]
+                            avg_mark+=Number(all_marks[j])
+                        }    
+                    }
+                    
+                    tbody.appendChild(tr)
+                }
+            }
+           if (flag_err){
+               alert('Некоторые данные были введены некорректно и были заменены на 0!')
+           }
+            
+            let best_p = document.createElement("p")
+            best_p.innerText="Лучший ученик: "+students[best_stud]
+            best_p.style.color='green'
+            best_p.style.margin = '3px'
+            let worst_p = document.createElement("p")
+            worst_p.innerText="Худший ученик: "+students[worst_stud]
+            worst_p.style.color= 'red'
+            document.getElementById('block').appendChild(best_p)
+            document.getElementById('block').appendChild(worst_p)
+            
+            table.appendChild(tbody)
+            
+        }
+    </script>
+</html>
