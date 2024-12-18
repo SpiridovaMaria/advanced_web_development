@@ -3,7 +3,7 @@
 </script>
 <template>
     <h2 class='text-center mb-4'>Тест "Числовой пазл"</h2>
-    <div v-if='is_started == false'>
+    <div v-if='is_started == false' class='mx-5'>
         <h3 class='my-4'>Правила прохождения теста:</h3>
         <div>
             <h5>1. Нажимайте на ячейку в первом блоке куда хотите поставить число из второго блока</h5>
@@ -80,7 +80,7 @@
                     this.is_finished = true
                 }
                
-                if (this.$refs.timerPuzzle.timeLeft == 0){
+                if (this.$refs.timerPuzzle.timeLeft == 0 && this.is_started){
                     this.is_finished = true
                 }
                 

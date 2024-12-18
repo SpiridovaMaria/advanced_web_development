@@ -1,7 +1,5 @@
-
 <template>
     <div>
-      <h5 id='timer'><b>Время прохождения:</b> {{ minutes }}:{{ seconds < 10 ? '0' : '' }}{{ seconds }}</h5>
     </div>
   </template>
 
@@ -9,9 +7,7 @@
   export default {
     data() {
       return {
-        totalTime: 60, // 1 минута в секундах
-        timeLeft: 60,
-        timeUsed: 0,
+        totalTime: 0,
         isRunning: false,
         
       };
@@ -20,11 +16,8 @@
       this.startTimer()
     },
     computed: {
-      minutes() {
-        return Math.floor(this.timeLeft / 60);
-      },
-      seconds() {
-        return this.timeLeft % 60;
+      milliseconds() {
+        return this.totalTime 
       },
       timeLeftCount(){
         return this.timeLeft
@@ -32,20 +25,15 @@
       timeUsedCount(){
         return this.timeUsed
       },
+
     },
     methods: {
       startTimer() {
         if (this.isRunning) return;
         this.isRunning = true;
         this.timer = setInterval(() => {
-          if (this.timeLeft > 0) {
-            this.timeLeft--;
-            this.timeUsed++;
-          } else {
-            clearInterval(this.timer);
-            this.isRunning = false;
-          }
-        }, 1000);
+            this.totalTime+=10;
+        }, 10);
       },
       stopTimer() {
         clearInterval(this.timer);
@@ -54,8 +42,6 @@
       resetTimer(time) {
         this.stopTimer();
         this.totalTime = time;
-        this.timeLeft = time;
-        this.timeUsed = 0;
         this.startTimer()
       },
     },
