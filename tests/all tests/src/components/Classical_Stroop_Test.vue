@@ -75,7 +75,7 @@ export default {
   computed:{
     check_time(){
       if(this.time_load){
-        if(this.$refs.timer.timeLeftCount == 0){
+        if(this.$refs.timer.timeLeftCount == 0 && this.is_started){
           this.check_answ()
         }
       }
